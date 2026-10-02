@@ -1,0 +1,1549 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="Generator RPP dinamis berbasis masterpm.json CP dan Tujuan Pembelajaran.">
+  <title>RPP Generator Profesional</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
+
+  <style>
+    :root{
+      --brand:#1f4fd1;
+      --brand-dark:#173b9b;
+      --brand-soft:#eef3ff;
+      --ink:#182230;
+      --muted:#667085;
+      --line:#dfe4ea;
+      --panel:#ffffff;
+      --canvas:#e9edf4;
+      --success:#12b76a;
+      --warning:#f79009;
+      --danger:#d92d20;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      color:var(--ink);
+      background:
+        radial-gradient(circle at 8% 0%, rgba(31,79,209,.10), transparent 25rem),
+        linear-gradient(180deg,#f8faff 0,#f4f7fb 100%);
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+    }
+    .shell{max-width:1540px;margin:auto}
+    .topbar{
+      position:sticky;top:0;z-index:1030;
+      background:rgba(255,255,255,.92);
+      border-bottom:1px solid rgba(223,228,234,.92);
+      backdrop-filter:blur(16px);
+    }
+    .brand-mark{
+      width:42px;height:42px;border-radius:13px;display:grid;place-items:center;
+      color:#fff;background:linear-gradient(135deg,var(--brand),#6f8cff);
+      box-shadow:0 8px 22px rgba(31,79,209,.22);font-size:1.15rem;
+    }
+    .brand-title{font-weight:800;letter-spacing:-.02em}
+    .brand-subtitle{font-size:.76rem;color:var(--muted)}
+    .app-card{
+      border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.98);
+      box-shadow:0 12px 34px rgba(16,24,40,.055);
+    }
+    .eyebrow{font-size:.72rem;letter-spacing:.10em;text-transform:uppercase;color:var(--brand);font-weight:800}
+    .small-note{font-size:.78rem;color:var(--muted)}
+
+    .app-footer{
+      max-width:1480px;margin:0 auto 22px;padding:0 1rem;
+      color:#667085;font-size:.78rem;text-align:center;
+    }
+    .app-footer a{color:#2855d9;text-decoration:none;font-weight:700}
+    .app-footer a:hover{text-decoration:underline}
+    .doc-copyright{
+      margin-top:18px;padding-top:7px;border-top:1px solid #d0d5dd;
+      text-align:center;font-size:8pt;color:#667085;line-height:1.3;
+    }
+    .doc-copyright a{color:inherit;text-decoration:none}
+
+    .abcd-badge{
+      display:inline-block;padding:2px 7px;border:1px solid #98a2b3;border-radius:999px;
+      font-size:8.5pt;font-weight:700;margin:1px 3px 1px 0;background:#fff;
+    }
+    .abcd-badge.primary{border-color:#344054;background:#f2f4f7}
+    .principle-table td:first-child{width:22%;font-weight:700}
+    .assessment-label{
+      display:inline-block;font-weight:700;font-size:9pt;padding:2px 7px;border:1px solid #667085;
+      border-radius:999px;margin-bottom:5px;
+    }
+    .compact-list{margin:4px 0 8px 18px;padding:0}
+    .compact-list li{margin:2px 0}
+    .instrument-table td{height:26px}
+
+
+    .integration-list{display:grid;gap:.55rem}
+    .integration-option{
+      border:1px solid #e4e7ec;border-radius:12px;padding:.65rem .75rem;background:#fff;
+      transition:border-color .16s ease,box-shadow .16s ease,background .16s ease;
+    }
+    .integration-option:has(input:checked){
+      border-color:#9db4ff;background:#f7f9ff;box-shadow:0 0 0 3px rgba(40,85,217,.05);
+    }
+    .integration-option .form-check{margin:0}
+    .integration-option .form-check-input{margin-top:.18rem}
+    .integration-option .integration-name{font-size:.84rem;font-weight:700;line-height:1.25;color:#344054}
+    .integration-option .integration-desc{font-size:.73rem;color:#667085;line-height:1.35;margin-top:.2rem}
+    .recommend-badge{
+      display:none;margin-left:.35rem;padding:.12rem .38rem;border-radius:999px;
+      background:#ecfdf3;color:#067647;font-size:.62rem;font-weight:800;vertical-align:middle;
+    }
+    .integration-option.recommended .recommend-badge{display:inline-block}
+    .integration-summary{
+      border:1px dashed #ccd5e4;background:#f8fafc;border-radius:12px;padding:.65rem .75rem;
+      font-size:.76rem;color:#475467;line-height:1.4
+    }
+
+    .deep-note{
+      border-left:3px solid #2855d9;background:#f8faff;padding:8px 10px;margin:7px 0 10px;
+      font-size:9.5pt;line-height:1.45;
+    }
+    .material-title{font-weight:700;margin-bottom:3px}
+    .material-focus{font-size:9pt;color:#475467;margin-top:3px}
+    .experience-label{
+      display:inline-block;font-size:8.5pt;font-weight:700;padding:2px 7px;border-radius:999px;
+      background:#eef3ff;color:#173aa8;margin-bottom:4px;
+    }
+    .pm-summary-grid{display:grid;grid-template-columns:1fr;gap:6px;margin:7px 0 10px}
+    .pm-summary-item{border:1px solid #d0d5dd;padding:7px 9px;border-radius:7px}
+    .pm-summary-item strong{display:block;margin-bottom:2px}
+
+    .subsection-title{
+      font-size:11pt;font-weight:700;margin:10px 0 6px;line-height:1.35;
+      break-after:avoid-page;page-break-after:avoid;
+    }
+
+    .stat-chip{
+      display:inline-flex;align-items:center;gap:.42rem;padding:.38rem .68rem;border-radius:999px;
+      background:var(--brand-soft);color:var(--brand-dark);font-size:.78rem;font-weight:750;
+    }
+    .status-dot{width:9px;height:9px;border-radius:50%;display:inline-block;background:#98a2b3}
+    .status-dot.ok{background:var(--success)}
+    .status-dot.warn{background:var(--warning)}
+    .status-dot.err{background:var(--danger)}
+    .status-dot.loading{background:var(--warning);animation:pulse 1s infinite alternate}
+    @keyframes pulse{to{opacity:.35}}
+    .sticky-panel{position:sticky;top:78px}
+    .form-label{font-size:.80rem;font-weight:700;color:#344054;margin-bottom:.35rem}
+    .form-control,.form-select{
+      border:1px solid #cfd6df;border-radius:11px;min-height:42px;font-size:.88rem;
+      background:#fff;
+    }
+    .form-control:focus,.form-select:focus{border-color:#86a2ef;box-shadow:0 0 0 .20rem rgba(31,79,209,.09)}
+    .btn{border-radius:11px;font-weight:700}
+    .btn-primary{background:var(--brand);border-color:var(--brand)}
+    .btn-primary:hover{background:var(--brand-dark);border-color:var(--brand-dark)}
+    .accordion-item,.accordion-button{background:transparent}
+    .accordion-button{font-weight:750;padding:1rem 1.15rem}
+    .accordion-button:not(.collapsed){color:var(--brand-dark);background:#f5f7ff;box-shadow:none}
+    .accordion-button:focus{box-shadow:none}
+    .preview-wrap{
+      background:linear-gradient(180deg,#e7ebf2,#dfe5ee);border:1px solid #d8dee8;
+      border-radius:20px;padding:28px;min-height:calc(100vh - 115px);overflow:auto;
+    }
+    .paper{
+      width:210mm;min-height:297mm;margin:0 auto;background:#fff;color:#101010;
+      padding:25mm 25mm 25mm 30mm;
+      box-shadow:0 18px 50px rgba(16,24,40,.18);
+      font-family:Arial,"Helvetica Neue",Helvetica,sans-serif;font-size:11pt;line-height:1.5;
+      position:relative;
+    }
+    .doc-head{text-align:center;margin-bottom:12px}
+    .doc-title{font-family:inherit;font-size:14pt;font-weight:700;letter-spacing:.01em;margin:0;line-height:1.25}
+    .doc-subtitle{font-family:inherit;font-size:11pt;font-weight:700;margin-top:4px;line-height:1.3}
+    .doc-rule{border:0;border-top:2px solid #111;margin:9px 0 12px;opacity:1}
+    .document-meta{
+      width:100%;border-collapse:collapse;margin:0 0 12px;font-size:11pt;font-family:inherit;
+    }
+    .document-meta td{border:0;padding:1.8px 3px;vertical-align:top}
+    .document-meta td:first-child{width:31%;font-weight:600}
+    .document-meta td:nth-child(2){width:10px}
+    .doc-section{margin-top:11px}
+    .section-title{
+      font-size:11pt;font-weight:700;margin:0 0 6px;line-height:1.35;
+      break-after:avoid-page;page-break-after:avoid;
+    }
+    .section-body p{margin:0 0 6px;text-align:justify}
+    .section-body ul,.section-body ol{margin:4px 0 7px;padding-left:22px}
+    .section-body li{margin:2px 0;text-align:justify}
+    .official-table{width:100%;border-collapse:collapse;margin:7px 0 12px;font-size:10pt;font-family:inherit;line-height:1.4}
+    .official-table th,.official-table td{border:1px solid #222;padding:6px 7px;vertical-align:top;font-family:inherit}
+    .official-table th{font-weight:700;text-align:center;background:#f4f4f4}
+    .activity-table td:first-child{width:21%;font-weight:700;text-align:left}
+    .assessment-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:6px 0 9px}
+    .assessment-card{border:1px solid #222;padding:7px;min-height:86px;break-inside:avoid}
+    .assessment-card strong{display:block;margin-bottom:3px}
+    .callout{border-left:3px solid #555;padding:6px 9px;margin:6px 0 9px;background:#fafafa}
+    .signature-block{margin-top:24px;display:grid;grid-template-columns:1fr 1fr;gap:42px;text-align:center;break-inside:avoid}
+    .signature-space{height:58px}
+    .signature-name{font-weight:700;text-decoration:underline}
+    .appendix-page{break-before:page;page-break-before:always;margin-top:0}
+    .appendix-title{text-align:center;font-weight:700;font-size:12pt;margin-bottom:10px;font-family:inherit}
+    .worksheet-box{border:1px solid #222;min-height:72px;margin-top:5px;padding:7px}
+    .doc-source-note{margin-top:16px;padding-top:7px;border-top:1px solid #bbb;font-size:8.8pt;color:#555}
+    .placeholder{min-height:70vh;display:grid;place-items:center;text-align:center;color:#667085}
+    .validation-box{border-radius:12px;padding:.7rem .8rem;font-size:.80rem;border:1px solid #e4e7ec;background:#fafbfc}
+    .validation-box.ok{background:#ecfdf3;border-color:#abefc6;color:#067647}
+    .validation-box.warn{background:#fffaeb;border-color:#fedf89;color:#b54708}
+    .validation-box.err{background:#fef3f2;border-color:#fecdca;color:#b42318}
+
+
+    .paper, .paper *{font-family:Arial,"Helvetica Neue",Helvetica,sans-serif}
+    .paper p,.paper li{orphans:3;widows:3}
+    .paper strong,.paper b{font-weight:700}
+    .paper thead{display:table-header-group}
+    .paper tfoot{display:table-footer-group}
+    .paper table{max-width:100%}
+    .paper img{max-width:100%;height:auto}
+    .document-meta td:first-child{font-weight:700}
+    .doc-section + .doc-section{margin-top:13px}
+    .section-body{font-family:inherit}
+    .section-body p:last-child{margin-bottom:0}
+
+    .select2-container{width:100%!important}
+    .select2-container .select2-selection--single{height:42px;border:1px solid #cfd6df;border-radius:11px}
+    .select2-container .select2-selection--single .select2-selection__rendered{line-height:40px;padding-left:12px;font-size:.87rem}
+    .select2-container .select2-selection--single .select2-selection__arrow{height:40px}
+    .select2-dropdown{border-color:#cfd6df;border-radius:10px;overflow:hidden}
+    .select2-results__option{font-size:.84rem}
+
+    @media (max-width:1199.98px){
+      .sticky-panel{position:static}
+      .preview-wrap{padding:12px}
+      .paper{width:100%;min-height:auto;padding:34px 30px}
+    }
+    @media (max-width:575.98px){
+      .paper{padding:24px 18px;font-size:10.5pt}
+      .assessment-grid{grid-template-columns:1fr}
+      .signature-block{grid-template-columns:1fr;gap:24px}
+    }
+
+    @page{
+      size:A4 portrait;
+      margin:0;
+    }
+    @media print{
+      html,body{
+        width:210mm!important;
+        min-height:297mm!important;
+        margin:0!important;
+        padding:0!important;
+        background:#fff!important;
+        color:#000!important;
+        font-family:Arial,"Helvetica Neue",Helvetica,sans-serif!important;
+        -webkit-print-color-adjust:exact;
+        print-color-adjust:exact;
+      }
+
+      /* Semua elemen aplikasi/form wajib hilang dari PDF */
+      .no-print,
+      .topbar,
+      aside,
+      form,
+      input,
+      select,
+      textarea,
+      button,
+      .form-control,
+      .form-select,
+      .select2-container,
+      .select2-dropdown,
+      .app-card,
+      .sticky-panel,
+      .validation-box,
+      .stat-chip,
+      .tooltip,
+      .popover{
+        display:none!important;
+        visibility:hidden!important;
+      }
+
+      /* Hanya area dokumen yang dipertahankan */
+      main,
+      .container-fluid,
+      .row,
+      section.col-xl-8,
+      section.col-xxl-9{
+        display:block!important;
+        width:100%!important;
+        max-width:none!important;
+        margin:0!important;
+        padding:0!important;
+      }
+      .preview-wrap{
+        display:block!important;
+        width:100%!important;
+        min-height:0!important;
+        margin:0!important;
+        padding:0!important;
+        overflow:visible!important;
+        background:#fff!important;
+        border:0!important;
+        border-radius:0!important;
+        box-shadow:none!important;
+      }
+      #paper.paper{
+        display:block!important;
+        visibility:visible!important;
+        width:210mm!important;
+        min-height:297mm!important;
+        margin:0!important;
+        padding:25mm 25mm 25mm 30mm!important;
+        background:#fff!important;
+        color:#000!important;
+        box-shadow:none!important;
+        border:0!important;
+        font-family:Arial,"Helvetica Neue",Helvetica,sans-serif!important;
+        font-size:11pt!important;
+        line-height:1.5!important;
+      }
+      #paper.paper *{
+        visibility:visible!important;
+        font-family:Arial,"Helvetica Neue",Helvetica,sans-serif!important;
+      }
+
+      /* Tipografi cetak */
+      .doc-title{font-size:14pt!important;font-weight:700!important;line-height:1.25!important}
+      .doc-subtitle{font-size:11pt!important;font-weight:700!important;line-height:1.3!important}
+      .document-meta{font-size:11pt!important}
+      .section-title{font-size:11pt!important;font-weight:700!important}
+      .section-body,.section-body p,.section-body li{font-size:11pt!important;line-height:1.5!important}
+      .official-table{font-size:10pt!important;line-height:1.4!important}
+      .official-table th,.official-table td{padding:6px 7px!important}
+      .doc-source-note{font-size:8.5pt!important}
+      .doc-copyright{font-size:8pt!important;color:#666!important;font-family:Arial,"Helvetica Neue",Helvetica,sans-serif!important}
+
+      /* Page-break rules */
+      .doc-head,
+      .section-title,
+      .assessment-card,
+      .signature-block,
+      .worksheet-box,
+      .official-table tr{
+        break-inside:avoid;
+        page-break-inside:avoid;
+      }
+      .doc-section{
+        break-inside:auto!important;
+        page-break-inside:auto!important;
+      }
+      .section-title{
+        break-after:avoid-page;
+        page-break-after:avoid;
+      }
+      .official-table thead{display:table-header-group}
+      .appendix-page{
+        break-before:page;
+        page-break-before:always;
+      }
+      .signature-block{
+        break-before:auto;
+        page-break-before:auto;
+      }
+
+      .official-table th{
+        background:#f2f2f2!important;
+        -webkit-print-color-adjust:exact;
+        print-color-adjust:exact;
+      }
+      a{
+        color:inherit!important;
+        text-decoration:none!important;
+      }
+
+      /* Jangan cetak placeholder preview */
+      #emptyState{display:none!important}
+    }
+  </style>
+</head>
+<body>
+<header class="topbar no-print">
+  <div class="shell container-fluid px-3 px-lg-4 py-2">
+    <div class="d-flex align-items-center justify-content-between gap-3">
+      <div class="d-flex align-items-center gap-3">
+        <div class="brand-mark"><i class="bi bi-file-earmark-text"></i></div>
+        <div>
+          <div class="brand-title">RPP Generator Profesional</div>
+          <div class="brand-subtitle">CP/TP Master JSON · Preview A4 · Cetak PDF</div>
+        </div>
+      </div>
+      <div class="d-flex align-items-center gap-2 small">
+        <span id="statusDot" class="status-dot loading"></span>
+        <span id="statusText">Memuat masterpm.json…</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="shell container-fluid px-3 px-lg-4 py-4">
+  <div class="row g-4">
+    <aside class="col-xl-4 col-xxl-3 no-print">
+      <div class="sticky-panel">
+        <section class="app-card p-3 p-lg-4 mb-3">
+          <div class="eyebrow mb-1">Validasi Data</div>
+          <div class="d-flex align-items-center justify-content-between gap-2 mb-2">
+            <h5 class="mb-0 fw-bold">Master CP & TP</h5>
+            <button id="reloadBtn" class="btn btn-sm btn-outline-secondary" title="Muat ulang"><i class="bi bi-arrow-clockwise"></i></button>
+          </div>
+          <div class="small-note text-break mb-3" id="jsonUrlLabel"></div>
+          <div class="d-flex flex-wrap gap-2 mb-3">
+            <span class="stat-chip"><i class="bi bi-diagram-3"></i><span id="cpCount">0</span> CP</span>
+            <span class="stat-chip"><i class="bi bi-bullseye"></i><span id="tpCount">0</span> TP</span>
+            <span class="stat-chip"><i class="bi bi-layers"></i><span id="phaseCount">0</span> fase</span>
+          </div>
+          <div id="validationBox" class="validation-box">Menunggu validasi data.</div>
+        </section>
+
+        <section class="app-card p-3 p-lg-4 mb-3">
+          <div class="eyebrow mb-1">Pemilihan Materi</div>
+          <h5 class="mb-3 fw-bold">Pilih Tujuan Pembelajaran</h5>
+
+          <div class="mb-3">
+            <label class="form-label">Jenjang</label>
+            <select id="jenjang" class="form-select"><option value="">Semua jenjang</option></select>
+          </div>
+          <div class="row g-2">
+            <div class="col-6">
+              <label class="form-label">Fase</label>
+              <select id="fase" class="form-select"><option value="">Pilih fase</option></select>
+            </div>
+            <div class="col-6">
+              <label class="form-label">Kelas</label>
+              <select id="kelas" class="form-select"><option value="">Semua kelas</option></select>
+            </div>
+          </div>
+          <div class="mt-3">
+            <label class="form-label">Mata Pelajaran</label>
+            <select id="mapel" class="form-select"><option value="">Pilih mata pelajaran</option></select>
+          </div>
+          <div class="mt-3">
+            <label class="form-label">Tujuan Pembelajaran</label>
+            <select id="tp" class="form-select"><option value="">Cari / pilih Tujuan Pembelajaran</option></select>
+            <div class="small-note mt-1">Pencarian dapat menggunakan nomor TP atau kata kunci rumusan TP.</div>
+          </div>
+        </section>
+
+        <div class="accordion app-card overflow-hidden mb-3" id="identityAccordion">
+          <div class="accordion-item border-0">
+            <h2 class="accordion-header">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#identityPane">
+                Identitas & Pengaturan RPP
+              </button>
+            </h2>
+            <div id="identityPane" class="accordion-collapse collapse show">
+              <div class="accordion-body">
+                <div class="row g-2">
+                  <div class="col-12"><label class="form-label">Nama Pengajar</label><input id="namaGuru" class="form-control" placeholder="Nama lengkap dan gelar"></div>
+                  <div class="col-12"><label class="form-label">NIP/NIK Pengajar</label><input id="nipGuru" class="form-control" placeholder="Opsional"></div>
+                  <div class="col-12"><label class="form-label">Unit Kerja / Satuan Pendidikan</label><input id="unitKerja" class="form-control" placeholder="Nama sekolah/satuan pendidikan"></div>
+                  <div class="col-12"><label class="form-label">Alamat Unit Kerja</label><input id="alamat" class="form-control" placeholder="Alamat satuan pendidikan"></div>
+                  <div class="col-12"><label class="form-label">Nama Kepala Satuan Pendidikan</label><input id="kepala" class="form-control" placeholder="Nama lengkap dan gelar"></div>
+                  <div class="col-12"><label class="form-label">NIP Kepala Satuan Pendidikan</label><input id="nipKepala" class="form-control" placeholder="Opsional"></div>
+                  <div class="col-6"><label class="form-label">Tahun Pelajaran</label><input id="tahun" class="form-control" value="2026/2027"></div>
+                  <div class="col-6"><label class="form-label">Semester</label><select id="semester" class="form-select"><option>Ganjil</option><option>Genap</option></select></div>
+                  <div class="col-6"><label class="form-label">Pertemuan Ke-</label><input id="pertemuan" class="form-control" value="1"></div>
+                  <div class="col-6"><label class="form-label">Alokasi Waktu</label><input id="alokasi" class="form-control" value="2 JP"></div>
+                  <div class="col-12"><label class="form-label">Model Pembelajaran</label><select id="model" class="form-select"><option>Problem Based Learning</option><option>Project Based Learning</option><option>Discovery Learning</option><option>Inquiry Learning</option><option>Cooperative Learning</option><option>Pembelajaran Langsung</option></select></div>
+                  <div class="col-12"><label class="form-label">Media / Perangkat</label><input id="media" class="form-control" value="Buku, LKPD, papan tulis, dan media digital yang relevan"></div>
+                  <div class="col-12"><label class="form-label">Sumber Belajar</label><input id="sumber" class="form-control" value="Buku teks, sumber kontekstual, dan referensi yang relevan dengan materi"></div>
+                  <div class="col-6"><label class="form-label">Tempat Pengesahan</label><input id="tempat" class="form-control" placeholder="Kota/Kabupaten"></div>
+                  <div class="col-6"><label class="form-label">Tanggal</label><input id="tanggal" type="date" class="form-control"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <section class="app-card p-3 p-lg-4 mb-3" id="integrationPanel">
+          <div class="eyebrow mb-1">Integrasi Lintas Isu</div>
+          <div class="d-flex align-items-start justify-content-between gap-2 mb-2">
+            <div>
+              <h5 class="mb-1 fw-bold">Pilih Integrasi Pembelajaran</h5>
+              <div class="small-note">Rekomendasi dicentang otomatis berdasarkan relevansi TP. Guru dapat menambah atau menghapus pilihan, termasuk integrasi Sekolah Siaga Kependudukan (SSK).</div>
+            </div>
+          </div>
+          <div id="integrationOptions" class="integration-list mb-3"></div>
+          <div id="integrationSummary" class="integration-summary mb-2">Pilih Tujuan Pembelajaran untuk melihat rekomendasi integrasi.</div>
+          <div class="d-flex gap-2">
+            <button type="button" id="applyRecommendedIntegrations" class="btn btn-sm btn-outline-primary flex-fill"><i class="bi bi-magic me-1"></i>Rekomendasi</button>
+            <button type="button" id="clearIntegrations" class="btn btn-sm btn-outline-secondary flex-fill"><i class="bi bi-x-circle me-1"></i>Kosongkan</button>
+          </div>
+        </section>
+
+        <div class="d-grid gap-2">
+          <button id="generateBtn" class="btn btn-primary"><i class="bi bi-stars me-1"></i> Generate / Perbarui RPP</button>
+          <button id="printBtn" class="btn btn-outline-dark"><i class="bi bi-printer me-1"></i> Cetak / Simpan PDF</button>
+          <div class="small-note text-center px-2">Saat menyimpan PDF, nonaktifkan opsi <strong>Headers and footers</strong> pada dialog cetak browser agar hasil benar-benar bersih.</div>
+          <button id="saveIdentityBtn" class="btn btn-outline-secondary"><i class="bi bi-floppy me-1"></i> Simpan Pengaturan</button>
+        </div>
+      </div>
+    </aside>
+
+    <section class="col-xl-8 col-xxl-9">
+      <div class="preview-wrap">
+        <article id="paper" class="paper">
+          <div class="placeholder" id="emptyState">
+            <div>
+              <div class="display-5 mb-3"><i class="bi bi-file-earmark-check"></i></div>
+              <h4 class="fw-bold">RPP siap digenerasikan</h4>
+              <p class="mb-1">Pilih fase, mata pelajaran, dan Tujuan Pembelajaran.</p>
+              <p class="small mb-0">Dokumen akan ditata otomatis dalam format A4 yang siap dicetak ke PDF.</p>
+            </div>
+          </div>
+          <div id="documentContent" class="d-none"></div>
+        </article>
+      </div>
+    </section>
+  </div>
+</main>
+
+
+<footer class="app-footer no-print">
+  &copy; 2026 <strong>Budiyono, S.Kom, M.Kom</strong> &middot;
+  <a href="https://budiyono.id" target="_blank" rel="noopener noreferrer">https://budiyono.id</a>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+(function(){
+  "use strict";
+
+  const MASTER_JSON_URL = "https://raw.githubusercontent.com/masbudiyono/rpp/main/masterpm.json";
+  const FALLBACK_JSON_URL = "https://cdn.jsdelivr.net/gh/masbudiyono/rpp@main/masterpm.json";
+  const EXPECTED_CP = 576;
+  const EXPECTED_TP = 5034;
+  const EXPECTED_PHASES = ["A","B","C","D","E","F"];
+
+  const FALLBACK_INTEGRATION_OPTIONS = [{"id":"lingkungan","nama":"Pendidikan Lingkungan Hidup","deskripsi":"Menguatkan kepedulian ekologis, perilaku berkelanjutan, dan tanggung jawab terhadap alam serta sumber daya.","aktivitas_default":"Mengaitkan konsep dengan persoalan lingkungan yang relevan, mengidentifikasi sebab-dampak, lalu merumuskan tindakan sederhana yang bertanggung jawab dan berkelanjutan.","asesmen_default":"Menilai ketepatan identifikasi masalah lingkungan, hubungan sebab-akibat, alasan yang digunakan, dan kelayakan tindakan atau solusi.","refleksi_default":"Apa dampak pembelajaran ini terhadap cara saya menjaga alam dan menggunakan sumber daya secara bertanggung jawab?"},{"id":"anti_korupsi","nama":"Pendidikan Anti Korupsi","deskripsi":"Menguatkan integritas, kejujuran, tanggung jawab, keadilan, transparansi, dan keberanian menolak penyimpangan.","aktivitas_default":"Menggunakan kasus atau situasi kontekstual untuk mengenali pilihan yang berintegritas, dampak penyimpangan, serta tindakan yang jujur, adil, transparan, dan bertanggung jawab.","asesmen_default":"Menilai kemampuan mengenali nilai integritas, menjelaskan konsekuensi tindakan, memberikan alasan etis, dan menentukan pilihan yang bertanggung jawab.","refleksi_default":"Bagaimana saya dapat menunjukkan integritas dan kejujuran dalam situasi nyata yang berkaitan dengan pembelajaran ini?"},{"id":"mitigasi_bencana","nama":"Pendidikan Mitigasi dan Penanggulangan Bencana","deskripsi":"Menguatkan literasi risiko, pencegahan, kesiapsiagaan, keselamatan, mitigasi, dan respons yang tepat terhadap bencana atau keadaan darurat.","aktivitas_default":"Mengidentifikasi bahaya atau risiko yang relevan, menganalisis dampaknya, lalu menyusun langkah pencegahan, kesiapsiagaan, evakuasi, atau respons aman sesuai konteks.","asesmen_default":"Menilai ketepatan identifikasi risiko, urutan tindakan keselamatan, dan alasan pemilihan langkah mitigasi atau respons.","refleksi_default":"Tindakan aman apa yang perlu saya ingat dan lakukan jika menghadapi risiko atau keadaan darurat terkait konteks ini?"},{"id":"mental_emosional","nama":"Kesehatan Mental dan Emosional","deskripsi":"Mengembangkan kesadaran diri, regulasi emosi, empati, relasi sehat, ketahanan diri, dan perilaku mencari dukungan secara tepat.","aktivitas_default":"Mengajak murid mengenali perasaan dan respons diri, mempertimbangkan perspektif orang lain, serta berlatih strategi regulasi emosi, komunikasi sehat, pemecahan konflik, atau pencarian dukungan yang aman.","asesmen_default":"Menilai kemampuan mengenali respons emosi, memilih strategi pengelolaan diri yang sehat, menunjukkan empati, dan berkomunikasi secara tepat.","refleksi_default":"Apa yang saya rasakan, apa yang memengaruhinya, dan strategi sehat apa yang dapat saya gunakan ketika menghadapi situasi serupa?"},{"id":"finansial","nama":"Literasi Finansial","deskripsi":"Menguatkan kemampuan memahami uang dan sumber daya serta membuat keputusan finansial yang rasional, aman, dan bertanggung jawab.","aktivitas_default":"Menggunakan konteks uang atau sumber daya untuk membandingkan kebutuhan dan keinginan, biaya-manfaat, prioritas, risiko, perencanaan, dan keputusan finansial yang bertanggung jawab.","asesmen_default":"Menilai ketepatan perhitungan atau pertimbangan, prioritas kebutuhan, alasan keputusan, serta pemahaman risiko dan konsekuensi finansial.","refleksi_default":"Bagaimana pembelajaran ini membantu saya membuat keputusan keuangan atau penggunaan sumber daya yang lebih bertanggung jawab?"},{"id":"digital","nama":"Literasi Digital","deskripsi":"Menguatkan kemampuan mengakses, menilai, membuat, dan berbagi informasi digital secara aman, kritis, etis, dan bertanggung jawab.","aktivitas_default":"Murid mengakses atau mengolah informasi digital, memeriksa sumber dan kredibilitas, memperhatikan privasi, keamanan, etika, serta hak cipta, lalu menyajikan hasil secara bertanggung jawab.","asesmen_default":"Menilai kualitas sumber, ketepatan verifikasi informasi, keamanan dan etika penggunaan media digital, serta kualitas produk atau komunikasi digital.","refleksi_default":"Bagaimana saya memastikan penggunaan teknologi dan informasi digital saya aman, kritis, etis, dan bertanggung jawab?"},{"id":"ai","nama":"Kecerdasan Artifisial","deskripsi":"Mengembangkan pemahaman dan penggunaan AI secara kritis, etis, transparan, aman, serta tetap menempatkan manusia sebagai pengambil keputusan.","aktivitas_default":"Jika sesuai usia dan sarana, murid membandingkan hasil kerja manusia dengan bantuan AI, memeriksa fakta, bias, dan kesalahan, menjaga data pribadi, serta menyatakan penggunaan AI secara transparan.","asesmen_default":"Menilai kemampuan memverifikasi keluaran AI, mengenali keterbatasan dan bias, menjaga data pribadi, serta menggunakan AI secara etis dan transparan.","refleksi_default":"Kapan AI membantu, kapan keluarannya perlu diragukan, dan keputusan apa yang tetap harus saya pertanggungjawabkan sendiri?"},{"id":"budaya_lokal","nama":"Kearifan Lokal dan Pelestarian Budaya","deskripsi":"Menghubungkan pembelajaran dengan pengetahuan, praktik, bahasa, seni, sejarah, dan nilai budaya lokal secara kritis dan apresiatif.","aktivitas_default":"Menggunakan contoh, cerita, artefak, praktik, bahasa, seni, sejarah, atau pengetahuan lokal sebagai konteks belajar; murid mengidentifikasi nilai yang relevan dan cara pelestariannya.","asesmen_default":"Menilai ketepatan pemahaman konteks budaya, penghargaan terhadap keberagaman, dan kualitas gagasan pelestarian atau pemanfaatan yang bertanggung jawab.","refleksi_default":"Nilai, pengetahuan, atau praktik lokal apa yang relevan dengan pembelajaran ini dan bagaimana saya dapat ikut melestarikannya?"},{"id":"inklusi_disabilitas","nama":"Pendidikan Inklusi dan Kesadaran Disabilitas","deskripsi":"Menguatkan penghargaan terhadap keberagaman kemampuan, aksesibilitas, kesetaraan partisipasi, dan praktik yang tidak diskriminatif.","aktivitas_default":"Murid mengidentifikasi hambatan partisipasi, mempertimbangkan kebutuhan yang beragam, serta merancang cara, produk, lingkungan, atau komunikasi yang lebih aksesibel dan tidak diskriminatif.","asesmen_default":"Menilai kemampuan mengenali hambatan akses, menghargai perbedaan, dan mengusulkan penyesuaian yang memungkinkan partisipasi setara.","refleksi_default":"Apa yang dapat saya lakukan agar kegiatan, informasi, produk, atau lingkungan lebih mudah diakses dan adil bagi semua?"},{"id":"ssk","nama":"Sekolah Siaga Kependudukan","deskripsi":"Mengintegrasikan wawasan kependudukan, pembangunan keluarga, kesehatan remaja, perencanaan kehidupan, dan pemanfaatan data kependudukan ke dalam pembelajaran secara kontekstual dan sesuai fase perkembangan murid.","aktivitas_default":"Menggunakan data, kasus, atau fenomena kependudukan yang sesuai usia/fase—misalnya jumlah dan persebaran penduduk, bonus demografi, kualitas penduduk, kesehatan remaja, pembangunan keluarga, stunting, perkawinan usia anak, atau perencanaan masa depan—untuk dianalisis dan dihubungkan dengan keputusan yang bertanggung jawab.","asesmen_default":"Menilai ketepatan membaca informasi atau data kependudukan, kemampuan menghubungkan sebab-akibat, kualitas argumentasi, serta kemampuan merumuskan sikap atau solusi yang mendukung keluarga berkualitas dan pembangunan berkelanjutan.","refleksi_default":"Bagaimana isu kependudukan yang dipelajari memengaruhi kehidupan saya, keluarga, masyarakat, dan perencanaan masa depan yang bertanggung jawab?"}];
+  const FALLBACK_INTEGRATION_RULES = {"lingkungan":{"strong":["lingkungan hidup","perubahan iklim","pemanasan global","pencemaran","polusi","limbah","sampah","ekosistem","konservasi","pelestarian alam","keanekaragaman hayati","sumber daya alam"],"keywords":["flora","fauna","hewan","tumbuhan","hutan","tanah","air bersih","energi terbarukan","kelestarian","alam ciptaan","berkelanjutan","ekologis"]},"anti_korupsi":{"strong":["korupsi","gratifikasi","suap","integritas","transparansi","akuntabilitas","penyalahgunaan wewenang"],"keywords":["jujur","kejujuran","amanah","keadilan","adil","tanggung jawab","hati nurani","taat hukum","pelanggaran hukum","etika"]},"mitigasi_bencana":{"strong":["mitigasi bencana","penanggulangan bencana","gempa","tsunami","banjir","longsor","letusan gunung","kebakaran hutan","evakuasi","tanggap darurat"],"keywords":["bencana","bahaya","kesiapsiagaan","risiko bencana","cuaca ekstrem","k3","keselamatan kerja","keadaan darurat","musibah dan ujian"]},"mental_emosional":{"strong":["kesehatan mental","regulasi emosi","kecemasan","depresi","stres","kesejahteraan psikologis","ketahanan diri"],"keywords":["emosi","emosional","perasaan","empati","percaya diri","pengendalian diri","persahabatan","pergaulan remaja","konflik","jati diri","identitas diri","perkembangan diri","hubungan sosial"]},"finansial":{"strong":["literasi finansial","keuangan","anggaran","investasi","tabungan","perbankan","akuntansi","pajak","bunga majemuk","pinjaman"],"keywords":["uang","harga","biaya","laba","rugi","pendapatan","pengeluaran","ekonomi","pasar","transaksi","jual beli","wirausaha","usaha","zakat","infak","sedekah","waris","mawaris"]},"digital":{"strong":["literasi digital","etika digital","keamanan digital","keamanan siber","privasi digital","media sosial","internet","teknologi digital"],"keywords":["digital","teknologi","media massa","media elektronik","informasi elektronik","data","komputer","daring","konten","audiovisual","sumber informasi","perangkat"]},"ai":{"strong":["kecerdasan artifisial","kecerdasan buatan","artificial intelligence","machine learning","pembelajaran mesin","generative ai","ai generatif","model bahasa"],"keywords":["algoritma","otomatisasi","pemodelan data","big data","robotika","sistem cerdas"]},"budaya_lokal":{"strong":["kearifan lokal","budaya lokal","pelestarian budaya","warisan budaya","bahasa daerah","tradisi masyarakat"],"keywords":["budaya","tradisi","adat","suku bangsa","seni","tari","musik","teater","kerajinan","lokal","nusantara","situs sejarah","cagar budaya"]},"inklusi_disabilitas":{"strong":["disabilitas","difabel","inklusif","inklusi","aksesibilitas","berkebutuhan khusus","kebutuhan khusus","tunanetra","tunarungu","tunadaksa","braille","bahasa isyarat"],"keywords":["kesetaraan","tidak diskriminatif","diskriminasi","keberagaman","keragaman","perbedaan identitas","kesetaraan gender","martabat manusia"]},"ssk":{"strong":["sekolah siaga kependudukan","pendidikan kependudukan","kependudukan","bonus demografi","geografi penduduk","pertumbuhan penduduk","persebaran penduduk","kepadatan penduduk","mobilitas penduduk","migrasi penduduk","urbanisasi","fertilitas","mortalitas","sensus penduduk","data kependudukan","piramida penduduk","rasio ketergantungan","kualitas penduduk","usia produktif","kesehatan reproduksi remaja","kesehatan reproduksi","keluarga berencana","stunting","perkawinan usia anak","pernikahan dini","perkawinan dini","pubertas","kehamilan","seks bebas"],"keywords":["ketenagakerjaan","remaja","napza","seksualitas","perencanaan masa depan"],"exclusions":["kelahiran kembali","kisah kelahiran","kelahiran yesus","kelahiran musa","kesehatan hewan","reproduksi hewan"]}};
+
+  let masterIntegrationConfig = null;
+  let masterRppTemplate = null;
+  let integrationTpKey = null;
+
+  let cpRecords = [];
+  let records = [];
+  let selected = null;
+  let masterMetadata = {};
+
+  const $ = window.jQuery;
+  $("#jsonUrlLabel").text(MASTER_JSON_URL);
+  $("#tanggal").val(new Date().toISOString().slice(0,10));
+
+  function esc(value){
+    return String(value ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
+  }
+  function norm(value){ return String(value ?? "").trim(); }
+  function uniq(values){
+    return [...new Set(values.map(norm).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"id",{numeric:true,sensitivity:"base"}));
+  }
+  function setStatus(type,text){
+    $("#statusDot").removeClass("ok warn err loading").addClass(type);
+    $("#statusText").text(text);
+  }
+  function setValidation(type,html){
+    $("#validationBox").removeClass("ok warn err").addClass(type).html(html);
+  }
+  function pick(obj,keys,fallback=""){
+    for(const k of keys){
+      if(obj && obj[k] !== undefined && obj[k] !== null && obj[k] !== "") return obj[k];
+    }
+    return fallback;
+  }
+
+  function flattenMaster(json){
+    masterMetadata = json?.metadata || {};
+    masterIntegrationConfig = json?.integrasi_lintas_isu || null;
+    masterRppTemplate = json?.template_rpp_pembelajaran_mendalam || null;
+
+    // Struktur resmi sumber: capaian_pembelajaran[] -> tujuan_pembelajaran[]
+    if(Array.isArray(json?.capaian_pembelajaran)){
+      cpRecords = json.capaian_pembelajaran;
+      const out = [];
+      cpRecords.forEach((cp,cpIndex)=>{
+        const tps = Array.isArray(cp.tujuan_pembelajaran) ? cp.tujuan_pembelajaran : [];
+        tps.forEach((tp,tpIndex)=>{
+          out.push({
+            __index:out.length,
+            __cpIndex:cpIndex,
+            __tpIndex:tpIndex,
+            cp_id:norm(cp.cp_id),
+            no_cp:cp.no_cp ?? "",
+            tp_id:norm(tp.tp_id),
+            tp_uid:norm(tp.tp_uid || tp.tp_id),
+            no_tp:tp.no_tujuan_pembelajaran ?? "",
+            jenjang:norm(cp.jenjang),
+            fase:norm(cp.fase).toUpperCase(),
+            kelas:norm(cp.kelas),
+            mapel:norm(cp.mata_pelajaran),
+            semester:norm(cp.semester),
+            cp:norm(cp.capaian_pembelajaran),
+            tp:norm(tp.deskripsi),
+            kat:tp.kat ?? null,
+            source_row:tp.source_row ?? null,
+            integrasi_rekomendasi:Array.isArray(tp.integrasi_rekomendasi) ? tp.integrasi_rekomendasi : [],
+            rencana_integrasi:(tp.rencana_integrasi && typeof tp.rencana_integrasi==="object") ? tp.rencana_integrasi : {},
+            pembelajaran_mendalam:(tp.pembelajaran_mendalam && typeof tp.pembelajaran_mendalam==="object") ? tp.pembelajaran_mendalam : null,
+            rpp_abcd:(tp.rpp_abcd && typeof tp.rpp_abcd==="object") ? tp.rpp_abcd : null,
+            __rawCp:cp,
+            __rawTp:tp
+          });
+        });
+      });
+      return out;
+    }
+
+    // Kompatibilitas dengan format flat/rpp lama bila diperlukan.
+    const flat = Array.isArray(json) ? json : (Array.isArray(json?.rpp) ? json.rpp : (Array.isArray(json?.data) ? json.data : []));
+    cpRecords = flat;
+    return flat.map((r,i)=>({
+      __index:i,
+      cp_id:norm(pick(r,["cp_id","id","kode"])),
+      no_cp:pick(r,["no_cp"],""),
+      tp_id:norm(pick(r,["tp_id","id","kode"])),
+      tp_uid:norm(pick(r,["tp_uid","tp_id","id","kode"])),
+      no_tp:pick(r,["no_tujuan_pembelajaran","no_tp"],""),
+      jenjang:norm(pick(r,["jenjang"],"")),
+      fase:norm(pick(r,["fase"],"")).toUpperCase(),
+      kelas:norm(pick(r,["kelas"],"")),
+      mapel:norm(pick(r,["mata_pelajaran","mapel"],"")),
+      semester:norm(pick(r,["semester"],"")),
+      cp:norm(pick(r,["capaian_pembelajaran","cp"],"")),
+      tp:norm(pick(r,["tujuan_pembelajaran","tp","deskripsi"],"")),
+      kat:r.kat ?? null,
+      source_row:r.source_row ?? null,
+      integrasi_rekomendasi:Array.isArray(r.integrasi_rekomendasi) ? r.integrasi_rekomendasi : [],
+      rencana_integrasi:(r.rencana_integrasi && typeof r.rencana_integrasi==="object") ? r.rencana_integrasi : {},
+      pembelajaran_mendalam:(r.pembelajaran_mendalam && typeof r.pembelajaran_mendalam==="object") ? r.pembelajaran_mendalam : null,
+      rpp_abcd:(r.rpp_abcd && typeof r.rpp_abcd==="object") ? r.rpp_abcd : null,
+      __rawCp:r,
+      __rawTp:r
+    }));
+  }
+
+  function validateMaster(){
+    const cpCount = cpRecords.length;
+    const tpCount = records.length;
+    const phases = uniq(records.map(r=>r.fase));
+    const emptyTP = records.filter(r=>!r.tp).length;
+    const duplicateIds = records.length - new Set(records.map(r=>r.tp_uid || r.tp_id || `row-${r.__index}`)).size;
+    const integrationReady = records.filter(r=>Array.isArray(r.integrasi_rekomendasi) && r.rencana_integrasi && typeof r.rencana_integrasi==="object").length;
+    const deepLearningReady = records.filter(r=>{
+      const pm=r.pembelajaran_mendalam;
+      return pm && Array.isArray(pm.materi_pembelajaran) && pm.materi_pembelajaran.length>=3
+        && pm.pengalaman_belajar?.memahami && pm.pengalaman_belajar?.mengaplikasi && pm.pengalaman_belajar?.merefleksi;
+    }).length;
+    const abcdReady = records.filter(r=>{
+      const a=r.rpp_abcd;
+      return a?.A?.kesiapan && a?.A?.karakteristik && a?.A?.profil
+        && a?.B?.praktik && a?.C?.memahami && a?.C?.mengaplikasi && a?.C?.merefleksi
+        && a?.D?.awal?.soal && a?.D?.formatif?.soal && a?.D?.sumatif?.soal;
+    }).length;
+    const missingPhases = EXPECTED_PHASES.filter(p=>!phases.includes(p));
+
+    $("#cpCount").text(cpCount.toLocaleString("id-ID"));
+    $("#tpCount").text(tpCount.toLocaleString("id-ID"));
+    $("#phaseCount").text(phases.length.toLocaleString("id-ID"));
+
+    const declaredCP = Number(masterMetadata.total_capaian_pembelajaran || 0);
+    const declaredTP = Number(masterMetadata.total_tujuan_pembelajaran || 0);
+    const fullOfficialStructure = Array.isArray(masterMetadata?.counts?.by_fase ? Object.keys(masterMetadata.counts.by_fase) : null) || phases.length > 0;
+
+    const isComplete = cpCount === EXPECTED_CP && tpCount === EXPECTED_TP && emptyTP === 0 && missingPhases.length === 0 && duplicateIds === 0 && integrationReady === tpCount && deepLearningReady === tpCount && abcdReady === tpCount;
+    const declaredOk = (!declaredCP || declaredCP === EXPECTED_CP) && (!declaredTP || declaredTP === EXPECTED_TP);
+
+    if(isComplete && declaredOk){
+      setStatus("ok",`Data lengkap: ${tpCount.toLocaleString("id-ID")} TP`);
+      setValidation("ok",`<strong>Valid.</strong> ${cpCount.toLocaleString("id-ID")} CP · ${tpCount.toLocaleString("id-ID")} TP · Fase ${phases.join(", ")} · ${integrationReady.toLocaleString("id-ID")} TP siap integrasi · ${deepLearningReady.toLocaleString("id-ID")} TP siap Pembelajaran Mendalam · ${abcdReady.toLocaleString("id-ID")} TP siap RPP A–D. Semua kunci TP aplikasi unik.`);
+      return true;
+    }
+
+    const issues = [];
+    if(cpCount !== EXPECTED_CP) issues.push(`CP aktual ${cpCount.toLocaleString("id-ID")} (target ${EXPECTED_CP})`);
+    if(tpCount !== EXPECTED_TP) issues.push(`TP aktual ${tpCount.toLocaleString("id-ID")} (target ${EXPECTED_TP.toLocaleString("id-ID")})`);
+    if(emptyTP) issues.push(`${emptyTP} TP kosong`);
+    if(missingPhases.length) issues.push(`fase belum ada: ${missingPhases.join(", ")}`);
+    if(duplicateIds) issues.push(`${duplicateIds} kunci TP aplikasi duplikat`);
+    if(integrationReady !== tpCount) issues.push(`${(tpCount-integrationReady).toLocaleString("id-ID")} TP belum memiliki struktur integrasi`);
+    if(deepLearningReady !== tpCount) issues.push(`${(tpCount-deepLearningReady).toLocaleString("id-ID")} TP belum memiliki materi/Pengalaman Belajar Pembelajaran Mendalam`);
+    if(abcdReady !== tpCount) issues.push(`${(tpCount-abcdReady).toLocaleString("id-ID")} TP belum memiliki struktur RPP A–D lengkap`);
+    if(!declaredOk) issues.push(`metadata total tidak sesuai`);
+    if(!fullOfficialStructure) issues.push(`struktur metadata tidak lengkap`);
+
+    setStatus("warn","masterpm.json belum memenuhi target lengkap");
+    setValidation("warn",`<strong>Peringatan.</strong> ${issues.join("; ")}. RPP tetap dapat dipreview dari data yang tersedia, tetapi file belum dianggap master final.`);
+    return false;
+  }
+
+  function fillSelect(selector,values,placeholder){
+    const current = $(selector).val();
+    const list = uniq(values);
+    const el = $(selector);
+    el.empty().append(new Option(placeholder,""));
+    list.forEach(v=>el.append(new Option(v,v)));
+    if(list.includes(current)) el.val(current);
+  }
+
+  function filtered(exclude=""){
+    let arr = records;
+    const jenjang=$("#jenjang").val(), fase=$("#fase").val(), kelas=$("#kelas").val(), mapel=$("#mapel").val();
+    if(exclude!=="jenjang" && jenjang) arr=arr.filter(r=>r.jenjang===jenjang);
+    if(exclude!=="fase" && fase) arr=arr.filter(r=>r.fase===fase);
+    if(exclude!=="kelas" && kelas) arr=arr.filter(r=>r.kelas===kelas);
+    if(exclude!=="mapel" && mapel) arr=arr.filter(r=>r.mapel===mapel);
+    return arr;
+  }
+
+  function rebuildFilters(changed=""){
+    if(changed!=="jenjang") fillSelect("#jenjang",filtered("jenjang").map(r=>r.jenjang),"Semua jenjang");
+    if(changed!=="fase") fillSelect("#fase",filtered("fase").map(r=>r.fase),"Pilih fase");
+    if(changed!=="kelas") fillSelect("#kelas",filtered("kelas").map(r=>r.kelas),"Semua kelas");
+    if(changed!=="mapel") fillSelect("#mapel",filtered("mapel").map(r=>r.mapel),"Pilih mata pelajaran");
+    rebuildTP();
+  }
+
+  function rebuildTP(){
+    const arr = filtered();
+    const current = $("#tp").val();
+    const el = $("#tp");
+    if(el.hasClass("select2-hidden-accessible")) el.select2("destroy");
+    el.empty().append(new Option("Cari / pilih Tujuan Pembelajaran",""));
+    arr.forEach(r=>{
+      const no = r.no_tp ? `TP ${r.no_tp}` : (r.tp_id || "TP");
+      const label = `${no} — ${r.tp}`;
+      el.append(new Option(label,String(r.__index)));
+    });
+    if(arr.some(r=>String(r.__index)===String(current))) el.val(String(current));
+    initTPSelect2();
+  }
+
+  function initTPSelect2(){
+    if($.fn.select2){
+      $("#tp").select2({
+        width:"100%",
+        placeholder:"Cari / pilih Tujuan Pembelajaran",
+        allowClear:true,
+        dropdownParent:$("body"),
+        matcher:function(params,data){
+          if($.trim(params.term)==="") return data;
+          if(!data.text) return null;
+          return data.text.toLowerCase().includes(params.term.toLowerCase()) ? data : null;
+        }
+      });
+    }
+  }
+
+
+  function integrationOptions(){
+    const remote = Array.isArray(masterIntegrationConfig?.opsi) ? masterIntegrationConfig.opsi : [];
+    const merged = new Map(FALLBACK_INTEGRATION_OPTIONS.map(x=>[x.id,x]));
+    remote.forEach(x=>{ if(x?.id) merged.set(x.id,{...(merged.get(x.id)||{}),...x}); });
+    return [...merged.values()];
+  }
+
+  function integrationRules(){
+    const remote = (masterIntegrationConfig?.aturan_rekomendasi && typeof masterIntegrationConfig.aturan_rekomendasi==="object")
+      ? masterIntegrationConfig.aturan_rekomendasi : {};
+    return {...FALLBACK_INTEGRATION_RULES,...remote};
+  }
+
+  function normalizeSearchText(value){
+    return String(value ?? "")
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g,"");
+  }
+
+  function inferIntegrations(r){
+    const text = normalizeSearchText([
+      r.tp,r.cp,r.mapel,r.jenjang,r.fase,r.kelas
+    ].filter(Boolean).join(" "));
+    const rules = integrationRules();
+    const scores = {};
+
+    integrationOptions().forEach(opt=>{
+      const rule = rules[opt.id] || {};
+      let score = 0;
+      (rule.strong || []).forEach(k=>{ if(text.includes(normalizeSearchText(k))) score += 4; });
+      (rule.keywords || []).forEach(k=>{ if(text.includes(normalizeSearchText(k))) score += 1; });
+      scores[opt.id] = score;
+    });
+
+    const mapel = normalizeSearchText(r.mapel);
+    const jenjang = normalizeSearchText(r.jenjang);
+
+    if(["sdlb","smplb","smalb","tklb"].some(x=>jenjang.includes(x)) || mapel.includes("pendidikan khusus")){
+      scores.inklusi_disabilitas = (scores.inklusi_disabilitas||0) + 6;
+    }
+    if(["informatika","koding","komputer","teknologi informasi"].some(x=>mapel.includes(x))){
+      scores.digital = (scores.digital||0) + 5;
+      scores.ai = (scores.ai||0) + 2;
+    }
+    if(["ekonomi","akuntansi","bisnis","pemasaran","perbankan","keuangan"].some(x=>mapel.includes(x))){
+      scores.finansial = (scores.finansial||0) + 5;
+      scores.anti_korupsi = (scores.anti_korupsi||0) + 1;
+    }
+    if(["pancasila","kewarganegaraan","ppkn"].some(x=>mapel.includes(x))){
+      scores.anti_korupsi = (scores.anti_korupsi||0) + 4;
+      scores.inklusi_disabilitas = (scores.inklusi_disabilitas||0) + 1;
+    }
+    if(["seni","sejarah","bahasa daerah","antropologi"].some(x=>mapel.includes(x))){
+      scores.budaya_lokal = (scores.budaya_lokal||0) + 4;
+    }
+    if(["biologi","ipas","ipa","geografi","pertanian","kehutanan","perikanan","kelautan"].some(x=>mapel.includes(x))){
+      scores.lingkungan = (scores.lingkungan||0) + 3;
+      scores.mitigasi_bencana = (scores.mitigasi_bencana||0) + 1;
+    }
+
+    if(["geografi","sosiologi","ekonomi","ilmu pengetahuan sosial","ips"].some(x=>mapel.includes(x))){
+      if(["penduduk","demografi","migrasi","urbanisasi","kelahiran","kematian","kepadatan","persebaran","keluarga"].some(x=>text.includes(x))){
+        scores.ssk = (scores.ssk||0) + 4;
+      }
+    }
+    if(["biologi","pjok","pendidikan jasmani","kesehatan"].some(x=>mapel.includes(x))){
+      if(["remaja","reproduksi","perkawinan","pernikahan","stunting","kesehatan remaja"].some(x=>text.includes(x))){
+        scores.ssk = (scores.ssk||0) + 4;
+      }
+    }
+
+    const maxAuto = Number(masterIntegrationConfig?.maksimum_rekomendasi_otomatis || 3);
+    let ranked = Object.entries(scores)
+      .filter(([id])=>integrationOptions().some(o=>o.id===id))
+      .sort((a,b)=>b[1]-a[1] || a[0].localeCompare(b[0]));
+
+    let ids = ranked.filter(([,score])=>score>=4).slice(0,maxAuto).map(([id])=>id);
+    if(!ids.length){
+      ids = ranked.filter(([,score])=>score>=2).slice(0,1).map(([id])=>id);
+    }
+    return ids;
+  }
+
+  function recommendedIntegrationIds(r){
+    if(Array.isArray(r?.integrasi_rekomendasi)){
+      return r.integrasi_rekomendasi.filter(Boolean);
+    }
+    return inferIntegrations(r);
+  }
+
+  function integrationStore(){
+    try{ return JSON.parse(localStorage.getItem("rpp_integration_choices_v1")||"{}") || {}; }
+    catch(e){ return {}; }
+  }
+
+  function saveIntegrationChoice(r){
+    if(!r) return;
+    const store=integrationStore();
+    const key=r.tp_uid || r.tp_id || String(r.__index);
+    store[key]=getSelectedIntegrationIds();
+    localStorage.setItem("rpp_integration_choices_v1",JSON.stringify(store));
+  }
+
+  function renderIntegrationOptions(r, forceRecommendation=false){
+    const opts=integrationOptions();
+    const recIds=r ? recommendedIntegrationIds(r) : [];
+    const recSet=new Set(recIds);
+    const key=r ? (r.tp_uid || r.tp_id || String(r.__index)) : null;
+    const stored=key ? integrationStore()[key] : null;
+    const selectedIds = (!forceRecommendation && Array.isArray(stored)) ? stored : recIds;
+    const selectedSet=new Set(selectedIds);
+
+    $("#integrationOptions").html(opts.map(opt=>`
+      <div class="integration-option ${recSet.has(opt.id) ? "recommended" : ""}" data-integration="${esc(opt.id)}">
+        <div class="form-check">
+          <input class="form-check-input integration-check" type="checkbox" value="${esc(opt.id)}" id="integration_${esc(opt.id)}" ${selectedSet.has(opt.id) ? "checked" : ""}>
+          <label class="form-check-label w-100" for="integration_${esc(opt.id)}">
+            <div class="integration-name">${esc(opt.nama)}<span class="recommend-badge">Direkomendasikan</span></div>
+            <div class="integration-desc">${esc(opt.deskripsi || "")}</div>
+          </label>
+        </div>
+      </div>
+    `).join(""));
+
+    updateIntegrationSummary(r);
+  }
+
+  function getSelectedIntegrationIds(){
+    return $(".integration-check:checked").map(function(){return this.value;}).get();
+  }
+
+  function getSelectedIntegrations(r){
+    const selectedIds=new Set(getSelectedIntegrationIds());
+    return integrationOptions()
+      .filter(opt=>selectedIds.has(opt.id))
+      .map(opt=>{
+        const explicit=r?.rencana_integrasi?.[opt.id] || {};
+        return {
+          ...opt,
+          alasan_relevansi:explicit.alasan_relevansi || `Dipilih sebagai konteks lintas isu yang mendukung penerapan TP tanpa mengubah substansi tujuan pembelajaran.`,
+          aktivitas:explicit.aktivitas || opt.aktivitas_default || "",
+          asesmen:explicit.asesmen || opt.asesmen_default || "",
+          refleksi:explicit.refleksi || opt.refleksi_default || ""
+        };
+      });
+  }
+
+  function updateIntegrationSummary(r){
+    const ids=getSelectedIntegrationIds();
+    const rec=r ? recommendedIntegrationIds(r) : [];
+    if(!r){
+      $("#integrationSummary").text("Pilih Tujuan Pembelajaran untuk melihat rekomendasi integrasi.");
+      return;
+    }
+    if(!ids.length){
+      $("#integrationSummary").html(`Belum ada integrasi yang dipilih. Sistem merekomendasikan <strong>${rec.length}</strong> tema untuk TP ini.`);
+      return;
+    }
+    const names=integrationOptions().filter(o=>ids.includes(o.id)).map(o=>o.nama);
+    $("#integrationSummary").html(`<strong>${ids.length} integrasi aktif:</strong> ${esc(names.join("; "))}.`);
+  }
+
+  function ensureIntegrationSelection(r){
+    const key=r?.tp_uid || r?.tp_id || String(r?.__index ?? "");
+    if(integrationTpKey!==key){
+      integrationTpKey=key;
+      renderIntegrationOptions(r,false);
+    }else{
+      updateIntegrationSummary(r);
+    }
+  }
+
+  function applyRecommendedIntegrations(){
+    if(!selected){
+      const idx=$("#tp").val();
+      selected=records.find(r=>String(r.__index)===String(idx)) || null;
+    }
+    if(!selected) return;
+    renderIntegrationOptions(selected,true);
+    saveIntegrationChoice(selected);
+    generateRPP();
+  }
+
+  function clearIntegrations(){
+    $(".integration-check").prop("checked",false);
+    if(selected) saveIntegrationChoice(selected);
+    updateIntegrationSummary(selected);
+    if(selected) generateRPP();
+  }
+
+  function integrationPlanTable(items){
+    if(!items.length) return `<div class="callout"><strong>Integrasi lintas isu:</strong> tidak dipilih untuk RPP ini. Guru dapat memilih integrasi melalui panel pengaturan jika diperlukan.</div>`;
+    return `
+      <h3 class="subsection-title">Integrasi Lintas Isu</h3>
+      <table class="official-table">
+        <thead><tr><th style="width:25%">Integrasi</th><th style="width:30%">Keterkaitan</th><th>Rencana Penerapan</th></tr></thead>
+        <tbody>${items.map(x=>`<tr><td><strong>${esc(x.nama)}</strong></td><td>${esc(x.alasan_relevansi)}</td><td>${esc(x.aktivitas)}</td></tr>`).join("")}</tbody>
+      </table>`;
+  }
+
+  function integrationActivityHtml(items){
+    if(!items.length) return "";
+    return `<li><strong>Integrasi lintas isu:</strong><ul>${items.map(x=>`<li><strong>${esc(x.nama)}:</strong> ${esc(x.aktivitas)}</li>`).join("")}</ul></li>`;
+  }
+
+  function integrationAssessmentHtml(items){
+    if(!items.length) return "";
+    return `
+      <h3 class="subsection-title">Bukti Asesmen Integrasi Lintas Isu</h3>
+      <table class="official-table">
+        <thead><tr><th style="width:30%">Integrasi</th><th>Bukti/Kriteria yang Diamati</th></tr></thead>
+        <tbody>${items.map(x=>`<tr><td>${esc(x.nama)}</td><td>${esc(x.asesmen)}</td></tr>`).join("")}</tbody>
+      </table>`;
+  }
+
+  function integrationReflectionHtml(items){
+    if(!items.length) return "";
+    return `<ol>${items.map(x=>`<li><strong>${esc(x.nama)}:</strong> ${esc(x.refleksi)}</li>`).join("")}</ol>`;
+  }
+
+  function integrationLkpdHtml(items){
+    if(!items.length) return "";
+    return `
+      <p><strong>Tugas Integratif:</strong></p>
+      <ol>${items.map(x=>`<li><strong>${esc(x.nama)}:</strong> ${esc(x.aktivitas)}</li>`).join("")}</ol>`;
+  }
+
+  function getSettings(){
+    return {
+      namaGuru:$("#namaGuru").val().trim(), nipGuru:$("#nipGuru").val().trim(),
+      unit:$("#unitKerja").val().trim(), alamat:$("#alamat").val().trim(),
+      kepala:$("#kepala").val().trim(), nipKepala:$("#nipKepala").val().trim(),
+      tahun:$("#tahun").val().trim(), semester:$("#semester").val(),
+      pertemuan:$("#pertemuan").val().trim(), alokasi:$("#alokasi").val().trim(),
+      model:$("#model").val(), media:$("#media").val().trim(), sumber:$("#sumber").val().trim(),
+      tempat:$("#tempat").val().trim(), tanggal:$("#tanggal").val()
+    };
+  }
+
+  function saveSettings(){
+    localStorage.setItem("rpp_generator_settings_v2",JSON.stringify(getSettings()));
+    const btn=$("#saveIdentityBtn");
+    const old=btn.html();
+    btn.html('<i class="bi bi-check2-circle me-1"></i>Tersimpan');
+    setTimeout(()=>btn.html(old),1200);
+  }
+
+  function loadSettings(){
+    try{
+      const s=JSON.parse(localStorage.getItem("rpp_generator_settings_v2")||"null");
+      if(!s) return;
+      const map={namaGuru:"#namaGuru",nipGuru:"#nipGuru",unit:"#unitKerja",alamat:"#alamat",kepala:"#kepala",nipKepala:"#nipKepala",tahun:"#tahun",semester:"#semester",pertemuan:"#pertemuan",alokasi:"#alokasi",model:"#model",media:"#media",sumber:"#sumber",tempat:"#tempat",tanggal:"#tanggal"};
+      Object.entries(map).forEach(([k,selector])=>{ if(s[k]!==undefined && s[k]!==null && s[k]!=="") $(selector).val(s[k]); });
+    }catch(e){ console.warn("Pengaturan lokal tidak dapat dibaca",e); }
+  }
+
+  function indoDate(value){
+    if(!value) return "................................";
+    const d=new Date(value+"T00:00:00");
+    return new Intl.DateTimeFormat("id-ID",{day:"numeric",month:"long",year:"numeric"}).format(d);
+  }
+
+  function paragraphs(text){
+    const parts=norm(text).split(/\n+/).map(s=>s.trim()).filter(Boolean);
+    if(!parts.length) return '<p>—</p>';
+    return parts.map(p=>`<p>${esc(p)}</p>`).join("");
+  }
+
+  function deriveTopic(tp){
+    return norm(tp)
+      .replace(/^Murid\s+mampu\s+/i,"")
+      .replace(/^Peserta didik\s+mampu\s+/i,"")
+      .replace(/[.]$/g,"") || "materi yang dipelajari";
+  }
+
+
+  function pmData(r){
+    const pm=r?.pembelajaran_mendalam;
+    if(pm && Array.isArray(pm.materi_pembelajaran) && pm.materi_pembelajaran.length){
+      return pm;
+    }
+    return {
+      format:"Pembelajaran Mendalam",
+      prinsip:{
+        berkesadaran:"Murid memahami tujuan, kriteria keberhasilan, strategi belajar, dan kemajuan belajarnya.",
+        bermakna:`Materi dikaitkan dengan konteks nyata dan penerapan ${deriveTopic(r?.tp||"materi")}.`,
+        menggembirakan:"Pembelajaran memberi ruang aman untuk bertanya, mencoba, berkolaborasi, menerima umpan balik, dan mengalami keberhasilan."
+      },
+      materi_pembelajaran:[{
+        no:1,
+        judul_materi:deriveTopic(r?.tp||"Materi"),
+        fokus_materi:deriveTopic(r?.tp||"Materi"),
+        uraian_materi:`Materi utama disusun dari Tujuan Pembelajaran: ${r?.tp||""}`,
+        pengalaman_belajar:{
+          memahami:"Murid membangun pemahaman awal dari sumber dan contoh yang relevan.",
+          mengaplikasi:"Murid menggunakan pemahaman melalui tugas atau situasi kontekstual.",
+          merefleksi:"Murid menilai hasil belajar dan menentukan tindak lanjut."
+        }
+      }],
+      pengalaman_belajar:{
+        memahami:{tujuan:"Murid mengonstruksi pengetahuan esensial.",aktivitas:[]},
+        mengaplikasi:{tujuan:"Murid menggunakan pengetahuan secara kontekstual.",aktivitas:[]},
+        merefleksi:{tujuan:"Murid mengevaluasi dan memaknai proses serta hasil belajar.",aktivitas:[]}
+      }
+    };
+  }
+
+  function materialTableHtml(pm){
+    const mats=Array.isArray(pm?.materi_pembelajaran)?pm.materi_pembelajaran:[];
+    if(!mats.length) return '<p>Materi pembelajaran belum tersedia.</p>';
+    return `
+      <table class="official-table deep-material-table">
+        <thead>
+          <tr><th style="width:6%">No.</th><th style="width:28%">Materi</th><th>Uraian Materi</th></tr>
+        </thead>
+        <tbody>
+          ${mats.map((m,i)=>`
+            <tr>
+              <td class="text-center">${esc(m.no ?? (i+1))}</td>
+              <td>
+                <div class="material-title">${esc(m.judul_materi || m.fokus_materi || `Materi ${i+1}`)}</div>
+                ${m.fokus_materi ? `<div class="material-focus"><strong>Fokus:</strong> ${esc(m.fokus_materi)}</div>` : ""}
+              </td>
+              <td>
+                ${esc(m.uraian_materi || "")}
+                ${m.pengetahuan ? `
+                  <div class="material-focus mt-1"><strong>Pengetahuan esensial:</strong> ${esc(m.pengetahuan.esensial || "")}</div>
+                  <div class="material-focus"><strong>Pengetahuan aplikatif:</strong> ${esc(m.pengetahuan.aplikatif || "")}</div>
+                  <div class="material-focus"><strong>Nilai/karakter:</strong> ${esc(m.pengetahuan.nilai_dan_karakter || "")}</div>
+                ` : ""}
+              </td>
+            </tr>`).join("")}
+        </tbody>
+      </table>`;
+  }
+
+  function experiencePhaseHtml(pm, key, title, number){
+    const mats=Array.isArray(pm?.materi_pembelajaran)?pm.materi_pembelajaran:[];
+    const phase=pm?.pengalaman_belajar?.[key] || {};
+    return `
+      <h3 class="subsection-title">${number}. ${esc(title)}</h3>
+      ${phase.tujuan ? `<div class="deep-note"><strong>Tujuan tahap:</strong> ${esc(phase.tujuan)}</div>` : ""}
+      <table class="official-table">
+        <thead><tr><th style="width:28%">Materi</th><th>Pengalaman Belajar Murid</th></tr></thead>
+        <tbody>
+          ${mats.map((m,i)=>`
+            <tr>
+              <td><strong>${esc(m.judul_materi || `Materi ${i+1}`)}</strong></td>
+              <td>${esc(m?.pengalaman_belajar?.[key] || (Array.isArray(phase.aktivitas)?phase.aktivitas[i]:"") || "")}</td>
+            </tr>`).join("")}
+        </tbody>
+      </table>`;
+  }
+
+
+  function abcdData(r){
+    return r?.rpp_abcd || {A:{kesiapan:{fokus:deriveTopic(r?.tp||""),pemetaan:"Asesmen awal dan observasi."},karakteristik:{tuntutan:"memahami",kompleksitas:"Bertahap dan kontekstual."},profil:{utama:["mandiri","komunikasi","penalaran_kritis"],penguatan:["imtaq","kewargaan","kreativitas","kesehatan","kolaborasi"]}},B:{praktik:"DISCOVERY_INQUIRY"},C:{},D:{awal:{tujuan:"Memetakan kesiapan belajar.",soal:[]},formatif:{tujuan:"Memantau kemajuan.",soal:[]},sumatif:{tujuan:"Menilai ketercapaian TP.",soal:[]}}};
+  }
+
+  function dimTemplate(){
+    const arr=masterRppTemplate?.dimensi_profil_lulusan;
+    if(Array.isArray(arr)&&arr.length) return arr;
+    return [
+      {id:"imtaq",nama:"Keimanan dan Ketakwaan terhadap Tuhan YME (Imtaq)",deskripsi:"Sikap spiritual dan integritas moral."},
+      {id:"kewargaan",nama:"Kewargaan",deskripsi:"Tanggung jawab sosial dan keberagaman."},
+      {id:"kreativitas",nama:"Kreativitas",deskripsi:"Gagasan, solusi, dan karya."},
+      {id:"mandiri",nama:"Kemandirian",deskripsi:"Regulasi diri dan tanggung jawab belajar."},
+      {id:"komunikasi",nama:"Komunikasi",deskripsi:"Menyimak dan menyampaikan gagasan."},
+      {id:"kesehatan",nama:"Kesehatan",deskripsi:"Kesehatan fisik, mental, emosional, dan keselamatan."},
+      {id:"kolaborasi",nama:"Kolaborasi",deskripsi:"Bekerja bersama dan berbagi peran."},
+      {id:"penalaran_kritis",nama:"Penalaran Kritis",deskripsi:"Mengolah informasi, bukti, dan alasan."}
+    ];
+  }
+
+  function profileHtml(a){
+    const utama=new Set(a?.A?.profil?.utama||[]);
+    const penguatan=new Set(a?.A?.profil?.penguatan||[]);
+    return `
+      <table class="official-table">
+        <thead><tr><th style="width:29%">Dimensi Profil Lulusan</th><th style="width:14%">Status</th><th>Penerapan dalam Pembelajaran</th></tr></thead>
+        <tbody>${dimTemplate().map(d=>`
+          <tr>
+            <td><strong>${esc(d.nama)}</strong></td>
+            <td>${utama.has(d.id)?'<span class="abcd-badge primary">Utama</span>':'<span class="abcd-badge">Penguatan</span>'}</td>
+            <td>${esc(d.deskripsi||"Dikuatkan sesuai konteks TP dan aktivitas pembelajaran.")}</td>
+          </tr>`).join("")}
+        </tbody>
+      </table>`;
+  }
+
+  function pedagogicText(code){
+    const map=masterRppTemplate?.kerangka_pembelajaran?.praktik_pedagogik||{};
+    return map?.[code] || code || "Discovery/Inquiry terbimbing, diskusi, latihan kontekstual, dan refleksi.";
+  }
+
+  function frameworkText(key,fallback){
+    return masterRppTemplate?.kerangka_pembelajaran?.[key] || fallback;
+  }
+
+  function principleHtml(stage){
+    const p=masterRppTemplate?.prinsip?.[stage]||{};
+    return `
+      <table class="official-table principle-table">
+        <tbody>
+          <tr><td>Berkesadaran</td><td>${esc(p.berkesadaran||"Murid memahami tujuan, strategi, dan kemajuan belajarnya.")}</td></tr>
+          <tr><td>Bermakna</td><td>${esc(p.bermakna||"Pembelajaran dihubungkan dengan pengalaman dan konteks nyata.")}</td></tr>
+          <tr><td>Menyenangkan</td><td>${esc(p.menyenangkan||"Pembelajaran aman, menantang, memberi pilihan, kolaborasi, dan pengalaman berhasil.")}</td></tr>
+        </tbody>
+      </table>`;
+  }
+
+  function qaTableHtml(items){
+    if(!Array.isArray(items)||!items.length) return "<p>Butir asesmen belum tersedia.</p>";
+    return `
+      <table class="official-table">
+        <thead><tr><th style="width:6%">No.</th><th>Soal / Tugas</th><th style="width:39%">Kunci Jawaban / Kriteria Respons</th></tr></thead>
+        <tbody>${items.map((it,i)=>{
+          const soal=Array.isArray(it)?it[0]:it.soal;
+          const key=Array.isArray(it)?it[1]:it.kunci;
+          return `<tr><td class="text-center">${i+1}</td><td>${esc(soal||"")}</td><td>${esc(key||"")}</td></tr>`;
+        }).join("")}</tbody>
+      </table>`;
+  }
+
+  function rubricAwalHtml(){
+    const rows=masterRppTemplate?.asesmen?.rubrik_awal||[];
+    return `
+      <table class="official-table">
+        <thead><tr><th style="width:10%">Skor</th><th style="width:24%">Kategori</th><th>Deskripsi</th></tr></thead>
+        <tbody>${rows.map(r=>`<tr><td class="text-center">${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")}</tbody>
+      </table>`;
+  }
+
+  function rubricScaleHtml(kind){
+    const rub=masterRppTemplate?.asesmen?.[kind]||{};
+    if(kind==="rubrik_sumatif"){
+      const criteria=Array.isArray(rub.kriteria)?rub.kriteria:[];
+      return `
+        <table class="official-table">
+          <thead><tr><th>Kriteria</th><th style="width:16%">Bobot</th></tr></thead>
+          <tbody>${criteria.map(c=>`<tr><td>${esc(c[0])}</td><td class="text-center">${esc(c[1])}%</td></tr>`).join("")}</tbody>
+        </table>
+        <table class="official-table">
+          <thead><tr><th style="width:11%">Skor</th><th>Deskripsi Umum</th></tr></thead>
+          <tbody>${Object.entries(rub.skala||{}).map(([k,v])=>`<tr><td class="text-center">${esc(k)}</td><td>${esc(v)}</td></tr>`).join("")}</tbody>
+        </table>
+        <p><strong>Perhitungan:</strong> ${esc(rub.rumus||"")}</p>`;
+    }
+    return `
+      <table class="official-table">
+        <thead><tr><th>Kriteria</th><th style="width:17%">Skor 1</th><th style="width:17%">Skor 2</th><th style="width:17%">Skor 3</th><th style="width:17%">Skor 4</th></tr></thead>
+        <tbody>${(rub.kriteria||[]).map(k=>`<tr><td>${esc(k)}</td>${["1","2","3","4"].map(s=>`<td>${esc((rub.skala||{})[s]||"")}</td>`).join("")}</tr>`).join("")}</tbody>
+      </table>`;
+  }
+
+  function observationInstrumentHtml(){
+    const cols=masterRppTemplate?.asesmen?.instrumen_observasi||["Nama Murid","Pemahaman","Penerapan","Penalaran","Kolaborasi","Catatan Umpan Balik","Tindak Lanjut"];
+    return `
+      <table class="official-table instrument-table">
+        <thead><tr>${cols.map(c=>`<th>${esc(c)}</th>`).join("")}</tr></thead>
+        <tbody>${Array.from({length:5},()=>`<tr>${cols.map(()=>"<td>&nbsp;</td>").join("")}</tr>`).join("")}</tbody>
+      </table>`;
+  }
+
+  function assessmentBlockHtml(abcd,key,title){
+    const a=abcd?.D?.[key]||{};
+    let rubric="";
+    if(key==="awal") rubric=rubricAwalHtml();
+    if(key==="formatif") rubric=rubricScaleHtml("rubrik_formatif");
+    if(key==="sumatif") rubric=rubricScaleHtml("rubrik_sumatif");
+    const instrumentText = key==="awal"
+      ? "Lembar respons diagnostik, observasi kesiapan, dan rubrik kesiapan 1–4."
+      : key==="formatif"
+        ? "Checklist observasi, catatan umpan balik, LKPD/produk sementara, dan rubrik formatif."
+        : "Lembar jawaban/produk/unjuk kerja dan rubrik sumatif berbobot.";
+    return `
+      <h3 class="subsection-title">${esc(title)}</h3>
+      <div class="section-body">
+        <p><strong>Tujuan:</strong> ${esc(a.tujuan||"")}</p>
+        <p><strong>Instrumen/alat:</strong> ${esc(instrumentText)}</p>
+        <p><strong>Catatan kunci:</strong> Untuk butir terbuka/kinerja, “kunci jawaban” diperlakukan sebagai kriteria respons yang dapat diterima dan disesuaikan dengan bukti belajar murid.</p>
+      </div>
+      ${qaTableHtml(a.soal)}
+      <div class="assessment-label">Rubrik ${esc(title)}</div>
+      ${rubric}`;
+  }
+
+  function generateRPP(){
+    const idx=$("#tp").val();
+    if(idx===null || idx===""){
+      alert("Pilih Tujuan Pembelajaran terlebih dahulu.");
+      return false;
+    }
+    selected=records.find(r=>String(r.__index)===String(idx));
+    if(!selected){ alert("Data Tujuan Pembelajaran tidak ditemukan."); return false; }
+
+    const r=selected;
+    const pm=pmData(r);
+    const abcd=abcdData(r);
+    ensureIntegrationSelection(r);
+    const integrations=getSelectedIntegrations(r);
+    const s=getSettings();
+    const topic=deriveTopic(r.tp);
+    const sourceSemester = r.semester && !/tidak ditetapkan/i.test(r.semester) ? r.semester : s.semester;
+    const school = s.unit || "........................................................";
+    const teacher = s.namaGuru || "........................................................";
+    const head = s.kepala || "........................................................";
+    const mats=Array.isArray(pm?.materi_pembelajaran)?pm.materi_pembelajaran:[];
+
+    const html=`
+      <div class="doc-head">
+        <h1 class="doc-title">RENCANA PELAKSANAAN PEMBELAJARAN (RPP)</h1>
+        <div class="doc-subtitle">PEMBELAJARAN MENDALAM</div>
+      </div>
+      <hr class="doc-rule">
+
+      <section class="doc-section">
+        <h2 class="section-title">A. IDENTIFIKASI</h2>
+
+        <h3 class="subsection-title">A.1 Identitas Pembelajaran</h3>
+        <table class="document-meta">
+          <tr><td>Satuan Pendidikan</td><td>:</td><td>${esc(school)}</td></tr>
+          <tr><td>Jenjang</td><td>:</td><td>${esc(r.jenjang || "-")}</td></tr>
+          <tr><td>Mata Pelajaran</td><td>:</td><td>${esc(r.mapel || "-")}</td></tr>
+          <tr><td>Fase / Kelas</td><td>:</td><td>${esc([r.fase,r.kelas].filter(Boolean).join(" / ") || "-")}</td></tr>
+          <tr><td>Semester</td><td>:</td><td>${esc(sourceSemester || "-")}</td></tr>
+          <tr><td>Tahun Pelajaran</td><td>:</td><td>${esc(s.tahun || "-")}</td></tr>
+          <tr><td>Pertemuan Ke-</td><td>:</td><td>${esc(s.pertemuan || "-")}</td></tr>
+          <tr><td>Alokasi Waktu</td><td>:</td><td>${esc(s.alokasi || "-")}</td></tr>
+          <tr><td>Pengajar</td><td>:</td><td>${esc(teacher)}</td></tr>
+          <tr><td>Integrasi Lintas Isu</td><td>:</td><td>${integrations.length ? esc(integrations.map(x=>x.nama).join("; ")) : "Tidak dipilih"}</td></tr>
+        </table>
+
+        <h3 class="subsection-title">A.2 Capaian Pembelajaran</h3>
+        <div class="section-body">${paragraphs(r.cp)}</div>
+
+        <h3 class="subsection-title">A.3 Kesiapan Belajar</h3>
+        <table class="official-table">
+          <tbody>
+            <tr><td style="width:25%"><strong>Fokus kesiapan</strong></td><td>${esc(abcd?.A?.kesiapan?.fokus || topic)}</td></tr>
+            <tr><td><strong>Pemetaan kesiapan</strong></td><td>${esc(abcd?.A?.kesiapan?.pemetaan || "Asesmen awal dan observasi.")}</td></tr>
+            <tr><td><strong>Aspek yang diamati</strong></td><td>Pengetahuan/keterampilan awal, pengalaman terkait materi, miskonsepsi, kemampuan mengikuti instruksi, regulasi diri, komunikasi awal, dan kebutuhan dukungan/aksesibilitas.</td></tr>
+            <tr><td><strong>Tindak lanjut</strong></td><td>Hasil pemetaan digunakan untuk menyesuaikan scaffolding, tempo, pengelompokan fleksibel, bentuk representasi materi, serta pengayaan; bukan untuk memberi label kemampuan tetap.</td></tr>
+          </tbody>
+        </table>
+
+        <h3 class="subsection-title">A.4 Karakteristik Materi</h3>
+        <table class="official-table">
+          <tbody>
+            <tr><td style="width:25%"><strong>Tuntutan kompetensi</strong></td><td>${esc(abcd?.A?.karakteristik?.tuntutan || "-")}</td></tr>
+            <tr><td><strong>Kompleksitas</strong></td><td>${esc(abcd?.A?.karakteristik?.kompleksitas || "Bertahap dan kontekstual.")}</td></tr>
+            <tr><td><strong>Cakupan materi</strong></td><td>${esc(mats.map(m=>m.judul_materi||m.fokus_materi).join("; "))}</td></tr>
+            <tr><td><strong>Karakter materi</strong></td><td>Disusun dari pengetahuan esensial menuju aplikatif, sintesis, dan refleksi; menghubungkan konsep, contoh/noncontoh, konteks nyata, serta integrasi lintas isu yang relevan.</td></tr>
+          </tbody>
+        </table>
+
+        <h3 class="subsection-title">A.5 Dimensi Profil Lulusan</h3>
+        ${profileHtml(abcd)}
+      </section>
+
+      <section class="doc-section">
+        <h2 class="section-title">B. DESAIN PEMBELAJARAN</h2>
+
+        <h3 class="subsection-title">B.1 Tujuan Pembelajaran</h3>
+        <div class="section-body"><p><strong>${r.no_tp ? `TP ${esc(r.no_tp)}. ` : ""}</strong>${esc(r.tp)}</p></div>
+
+        <h3 class="subsection-title">B.2 Materi Pembelajaran</h3>
+        <div class="deep-note">Setiap TP telah di-breakdown menjadi beberapa materi yang relevan. Uraian berikut menjadi dasar Pengalaman Belajar pada bagian C.</div>
+        ${materialTableHtml(pm)}
+
+        <h3 class="subsection-title">B.3 Kerangka Pembelajaran</h3>
+        <table class="official-table">
+          <tbody>
+            <tr><td style="width:25%"><strong>Praktik Pedagogik</strong></td><td>${esc(pedagogicText(abcd?.B?.praktik))}</td></tr>
+            <tr><td><strong>Lingkungan Pembelajaran</strong></td><td>${esc(frameworkText("lingkungan","Lingkungan aman, inklusif, aksesibel, dan fleksibel."))}</td></tr>
+            <tr><td><strong>Kemitraan Pembelajaran</strong></td><td>${esc(frameworkText("kemitraan","Guru dan teman sebaya sebagai mitra belajar; keluarga/komunitas dilibatkan bila relevan."))}</td></tr>
+            <tr><td><strong>Pemanfaatan Digital</strong></td><td>${esc(frameworkText("digital","Digital digunakan secara proporsional, aman, etis, dan sesuai usia."))}</td></tr>
+          </tbody>
+        </table>
+
+        <h3 class="subsection-title">B.4 Sarana, Media, Sumber, Model, dan Metode</h3>
+        <table class="document-meta">
+          <tr><td>Model Pembelajaran</td><td>:</td><td>${esc(s.model || pedagogicText(abcd?.B?.praktik))}</td></tr>
+          <tr><td>Metode</td><td>:</td><td>diskusi, tanya jawab, eksplorasi, praktik/latihan, presentasi, umpan balik, dan refleksi sesuai kebutuhan TP</td></tr>
+          <tr><td>Media / Perangkat</td><td>:</td><td>${esc(s.media || "Disesuaikan dengan konteks pembelajaran")}</td></tr>
+          <tr><td>Sumber Belajar</td><td>:</td><td>${esc(s.sumber || "Disesuaikan dengan konteks pembelajaran")}</td></tr>
+        </table>
+
+        <h3 class="subsection-title">B.5 Pertanyaan Pemantik</h3>
+        <div class="section-body"><ol>
+          <li>Apa yang sudah kamu ketahui atau pernah alami terkait ${esc(topic)}?</li>
+          <li>Mengapa materi ini penting atau bermanfaat untuk dipelajari?</li>
+          <li>Bagaimana kita dapat membuktikan bahwa Tujuan Pembelajaran ini sudah tercapai?</li>
+        </ol></div>
+
+        <h3 class="subsection-title">B.6 Integrasi Lintas Isu</h3>
+        ${integrationPlanTable(integrations)}
+      </section>
+
+      <section class="doc-section">
+        <h2 class="section-title">C. PENGALAMAN BELAJAR</h2>
+        <div class="deep-note">
+          Pengalaman belajar disusun runtut melalui <strong>Memahami → Mengaplikasi → Merefleksi</strong>.
+          Pada setiap tahap diterapkan prinsip <strong>Berkesadaran, Bermakna, dan Menyenangkan</strong>.
+        </div>
+
+        <h3 class="subsection-title">C.1 Memahami</h3>
+        ${principleHtml("memahami")}
+        ${experiencePhaseHtml(pm,"memahami","Alur Memahami",1)}
+
+        <h3 class="subsection-title">C.2 Mengaplikasi</h3>
+        ${principleHtml("mengaplikasi")}
+        ${experiencePhaseHtml(pm,"mengaplikasi","Alur Mengaplikasi",2)}
+        ${integrations.length ? `
+          <div class="deep-note"><strong>Integrasi dalam tahap Mengaplikasi:</strong> integrasi dipilih sebagai konteks penerapan TP, bukan sebagai materi tempelan.</div>
+          ${integrationPlanTable(integrations)}
+          <div class="section-body"><ul>${integrations.map(x=>`<li><strong>${esc(x.nama)}:</strong> ${esc(x.aktivitas)}</li>`).join("")}</ul></div>
+        `:""}
+
+        <h3 class="subsection-title">C.3 Merefleksi</h3>
+        ${principleHtml("merefleksi")}
+        ${experiencePhaseHtml(pm,"merefleksi","Alur Merefleksi",3)}
+
+        <div class="section-body">
+          <p><strong>Penutup dan tindak lanjut:</strong> murid merumuskan kesimpulan, menunjukkan bukti pencapaian TP, menerima umpan balik, dan menentukan langkah belajar berikutnya. Guru menggunakan bukti belajar untuk menentukan dukungan, remedial, atau pengayaan.</p>
+        </div>
+      </section>
+
+      <section class="doc-section">
+        <h2 class="section-title">D. ASESMEN</h2>
+        <div class="deep-note">Asesmen dirancang selaras dengan TP dan pengalaman belajar. Setiap paket memuat soal/tugas, kunci atau kriteria respons, instrumen, rubrik, serta fungsi tindak lanjut.</div>
+
+        ${assessmentBlockHtml(abcd,"awal","D.1 Asesmen Awal")}
+        ${assessmentBlockHtml(abcd,"formatif","D.2 Asesmen Formatif")}
+        ${assessmentBlockHtml(abcd,"sumatif","D.3 Asesmen Sumatif")}
+
+        <h3 class="subsection-title">D.4 Instrumen Observasi dan Umpan Balik</h3>
+        ${observationInstrumentHtml()}
+
+        ${integrations.length ? `<h3 class="subsection-title">D.5 Asesmen Integrasi Lintas Isu</h3>${integrationAssessmentHtml(integrations)}` : ""}
+      </section>
+
+      <section class="doc-section">
+        <h2 class="section-title">E. DIFERENSIASI, REMEDIAL, DAN PENGAYAAN</h2>
+        <div class="section-body">
+          <p><strong>Diferensiasi.</strong> Guru menyesuaikan dukungan, tingkat kompleksitas, cara mengakses informasi, proses, atau bentuk produk berdasarkan kesiapan, kebutuhan, dan karakteristik murid tanpa mengubah esensi TP.</p>
+          <p><strong>Remedial.</strong> Murid yang belum mencapai kriteria memperoleh penjelasan ulang, representasi alternatif, contoh lebih terstruktur, latihan bertahap, pendampingan, dan kesempatan memperbaiki bukti belajar.</p>
+          <p><strong>Pengayaan.</strong> Murid yang sudah mencapai kriteria memperoleh tantangan penerapan pada konteks baru, eksplorasi lanjutan, pengembangan produk, atau peran tutor sebaya yang terarah.</p>
+        </div>
+      </section>
+
+      <section class="doc-section">
+        <h2 class="section-title">F. REFLEKSI</h2>
+        <table class="official-table">
+          <thead><tr><th style="width:50%">Refleksi Murid</th><th>Refleksi Guru</th></tr></thead>
+          <tbody><tr>
+            <td><ol><li>Apa yang saya pahami dengan baik?</li><li>Apa yang masih sulit?</li><li>Bukti apa yang menunjukkan saya mencapai TP?</li><li>Apa strategi yang membantu saya belajar?</li><li>Apa langkah berikutnya?</li></ol></td>
+            <td><ol><li>Apakah bukti belajar menunjukkan TP tercapai?</li><li>Apakah prinsip Berkesadaran, Bermakna, dan Menyenangkan tampak?</li><li>Aktivitas mana yang paling efektif?</li><li>Siapa yang memerlukan dukungan/remedial/pengayaan?</li><li>Perbaikan apa yang diperlukan?</li></ol></td>
+          </tr></tbody>
+        </table>
+        ${integrations.length ? `<h3 class="subsection-title">Refleksi Integrasi Lintas Isu</h3>${integrationReflectionHtml(integrations)}` : ""}
+      </section>
+
+      <section class="doc-section appendix-page">
+        <div class="appendix-title">LAMPIRAN 1 — LEMBAR KERJA PESERTA DIDIK (LKPD)</div>
+        <table class="document-meta">
+          <tr><td>Nama</td><td>:</td><td>........................................................</td></tr>
+          <tr><td>Kelas</td><td>:</td><td>${esc(r.kelas || "........................")}</td></tr>
+          <tr><td>Mata Pelajaran</td><td>:</td><td>${esc(r.mapel || "-")}</td></tr>
+        </table>
+        <div class="section-body">
+          <p><strong>Tujuan:</strong> ${esc(r.tp)}</p>
+          <p><strong>Materi:</strong> ${esc(mats.map(m=>m.judul_materi).join("; "))}</p>
+          <p><strong>Petunjuk:</strong> ikuti instruksi guru, gunakan sumber yang disediakan, catat proses kerja, dan tunjukkan bukti pencapaian tujuan.</p>
+          <ol>
+            <li>Tuliskan informasi/konsep penting dari materi yang dipelajari.</li>
+            <li>Lakukan tugas aplikasi/praktik sesuai arahan guru dan dokumentasikan proses/hasil.</li>
+            <li>Jelaskan alasan, bukti, atau prosedur yang mendukung hasil kerjamu.</li>
+            <li>Bandingkan hasil dengan kriteria keberhasilan dan lakukan perbaikan bila diperlukan.</li>
+            <li>Tuliskan refleksi: hal yang sudah dikuasai, tantangan, dan langkah belajar berikutnya.</li>
+          </ol>
+          ${integrationLkpdHtml(integrations)}
+          <p><strong>Hasil / Jawaban:</strong></p><div class="worksheet-box"></div><div class="worksheet-box"></div><div class="worksheet-box"></div>
+        </div>
+      </section>
+
+      <section class="doc-section appendix-page">
+        <div class="appendix-title">LAMPIRAN 2 — GLOSARIUM, SUMBER, DAN PENGESAHAN</div>
+        <h2 class="section-title">G. GLOSARIUM DAN DAFTAR SUMBER</h2>
+        <div class="section-body">
+          <p><strong>Capaian Pembelajaran (CP):</strong> kompetensi pembelajaran yang perlu dicapai murid pada akhir suatu fase.</p>
+          <p><strong>Tujuan Pembelajaran (TP):</strong> rumusan kompetensi yang menjadi arah aktivitas dan asesmen pembelajaran.</p>
+          <p><strong>Pembelajaran Mendalam:</strong> pembelajaran yang membangun pengalaman Memahami, Mengaplikasi, dan Merefleksi dengan prinsip Berkesadaran, Bermakna, dan Menyenangkan.</p>
+          <p><strong>Sumber utama data CP/TP:</strong> <em>masterpm.json</em> yang dimuat aplikasi dari repositori yang ditetapkan.</p>
+          <p><strong>Sumber belajar pembelajaran:</strong> ${esc(s.sumber || "Disesuaikan dengan konteks pembelajaran")}</p>
+        </div>
+
+        <div class="signature-block">
+          <div>
+            <div>Mengetahui,</div>
+            <div>Kepala Satuan Pendidikan</div>
+            <div class="signature-space"></div>
+            <div class="signature-name">${esc(head)}</div>
+            <div>${s.nipKepala ? `NIP. ${esc(s.nipKepala)}` : "NIP. ........................................"}</div>
+          </div>
+          <div>
+            <div>${esc(s.tempat || "....................")}, ${esc(indoDate(s.tanggal))}</div>
+            <div>Pengajar</div>
+            <div class="signature-space"></div>
+            <div class="signature-name">${esc(teacher)}</div>
+            <div>${s.nipGuru ? `NIP/NIK. ${esc(s.nipGuru)}` : "NIP/NIK. ........................................"}</div>
+          </div>
+        </div>
+
+        <div class="doc-source-note">
+          Identifikasi data: ${esc(r.cp_id || "-")} · sumber ${esc(r.tp_id || "-")} · UID ${esc(r.tp_uid || r.tp_id || "-")}${r.source_row ? ` · baris sumber ${esc(r.source_row)}` : ""}. CP/TP berasal dari master data. Breakdown materi, pengalaman belajar, integrasi, dan struktur RPP A–D merupakan elaborasi pedagogis yang tersimpan pada masterpm.json untuk kebutuhan perencanaan pembelajaran.
+        </div>
+
+        <div class="doc-copyright">
+          &copy; 2026 Budiyono, S.Kom, M.Kom &middot; <a href="https://budiyono.id">https://budiyono.id</a>
+        </div>
+      </section>
+    `;
+
+    $("#documentContent").html(html).removeClass("d-none");
+    $("#emptyState").addClass("d-none");
+    document.title=`RPP PM ${r.mapel || ""} - Fase ${r.fase || ""} - TP ${r.no_tp || r.tp_id || ""}`;
+    return true;
+  }
+
+  async function fetchJson(url){
+    const sep=url.includes("?")?"&":"?";
+    const res=await fetch(url+sep+"v="+Date.now(),{cache:"no-store"});
+    if(!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText}`);
+    return res.json();
+  }
+
+  async function loadData(){
+    setStatus("loading","Memuat masterpm.json…");
+    setValidation("","Membaca dan memvalidasi struktur data…");
+    try{
+      let json;
+      try{ json=await fetchJson(MASTER_JSON_URL); }
+      catch(primaryError){
+        console.warn("RAW GitHub gagal, mencoba fallback CDN",primaryError);
+        json=await fetchJson(FALLBACK_JSON_URL);
+      }
+      records=flattenMaster(json);
+      if(!records.length) throw new Error("Tidak ada Tujuan Pembelajaran yang dapat dibaca dari masterpm.json.");
+      renderIntegrationOptions(null,false);
+
+      validateMaster();
+      fillSelect("#jenjang",records.map(r=>r.jenjang),"Semua jenjang");
+      fillSelect("#fase",records.map(r=>r.fase),"Pilih fase");
+      fillSelect("#kelas",records.map(r=>r.kelas),"Semua kelas");
+      fillSelect("#mapel",records.map(r=>r.mapel),"Pilih mata pelajaran");
+      rebuildTP();
+    }catch(err){
+      console.error(err);
+      records=[];cpRecords=[];
+      $("#cpCount,#tpCount,#phaseCount").text("0");
+      setStatus("err","Gagal memuat masterpm.json");
+      setValidation("err",`<strong>Gagal memuat data.</strong> ${esc(err.message)}. Pastikan <em>masterpm.json</em> tersedia pada branch <strong>main</strong> dan repository dapat diakses publik.`);
+    }
+  }
+
+  $(function(){
+    loadSettings();
+
+    $("#jenjang").on("change",function(){ $("#fase,#kelas,#mapel").val(""); rebuildFilters("jenjang"); });
+    $("#fase").on("change",function(){ $("#kelas,#mapel").val(""); rebuildFilters("fase"); });
+    $("#kelas").on("change",function(){ $("#mapel").val(""); rebuildFilters("kelas"); });
+    $("#mapel").on("change",function(){ rebuildFilters("mapel"); });
+    $(document).on("change","#tp",function(){ if($(this).val()!==null && $(this).val()!=="") generateRPP(); });
+
+    $("#generateBtn").on("click",generateRPP);
+    $("#printBtn").on("click",function(){
+      if($("#documentContent").hasClass("d-none") && !generateRPP()) return;
+      window.print();
+    });
+    $("#saveIdentityBtn").on("click",saveSettings);
+    $("#reloadBtn").on("click",loadData);
+    $("#applyRecommendedIntegrations").on("click",applyRecommendedIntegrations);
+    $("#clearIntegrations").on("click",clearIntegrations);
+    $(document).on("change",".integration-check",function(){
+      if(selected) saveIntegrationChoice(selected);
+      updateIntegrationSummary(selected);
+      if(selected) generateRPP();
+    });
+
+    $("#identityPane input,#identityPane select").on("input change",function(){ if(selected) generateRPP(); });
+
+    loadData();
+  });
+})();
+</script>
+</body>
+</html>
